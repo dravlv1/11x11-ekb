@@ -102,6 +102,19 @@ nav a:hover{color:var(--ink)}
 .ticker .ti,.ticker .tx{margin-right:16px}
 @media (prefers-reduced-motion:reduce){.ticker div{animation:none}}
 
+/* раскрывающиеся блоки на телефоне */
+.acc-t{all:unset;cursor:default}
+@media (max-width:760px){
+  section.acc{padding-block:22px}
+  .acc h2{margin:6px 0 0}
+  .acc-t{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;font-size:24px}
+  .acc-t::after{content:"+";font-family:var(--body);font-style:normal;font-weight:400;font-size:28px;line-height:1;width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;flex:none}
+  .acc-t[aria-expanded="true"]::after{content:"−"}
+  .acc:not(.open) .acc-hide{display:none}
+  .acc.open .acc-hide:first-of-type{margin-top:18px}
+  #sizes .size-wrap{gap:14px}
+}
+
 /* surfaces */
 .surf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}
 .surf{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:10px;text-align:left;color:var(--ink);transition:border-color .15s,background .15s}
@@ -347,27 +360,27 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
   <div class="ticker" aria-hidden="true"><div id="ticker"></div></div>
 
 
-  <section id="surfaces">
+  <section id="surfaces" class="acc">
     <div class="wrap">
       <div class="eyebrow">Подбор бутс · шаг 1</div>
-      <h2>Какие бутсы под какое поле</h2>
-      <div class="surf-grid" id="surfGrid"></div>
+      <h2><button type="button" class="acc-t" aria-expanded="false">Какие бутсы под какое поле</button></h2>
+      <div class="surf-grid acc-hide" id="surfGrid"></div>
     </div>
   </section>
 
-  <section id="sizes">
+  <section id="sizes" class="acc">
     <div class="wrap size-wrap">
       <div>
         <div class="eyebrow">Подбор бутс · шаг 2</div>
-        <h2>Размер бутс</h2>
-        <p>Встань на лист бумаги, отметь пятку и самый длинный палец и измерь расстояние. Добавь 0,5 см: бутса должна сидеть плотно, но пальцы не упираются.</p>
-        <div class="calc">
+        <h2><button type="button" class="acc-t" aria-expanded="false">Размер бутс</button></h2>
+        <p class="acc-hide">Встань на лист бумаги, отметь пятку и самый длинный палец и измерь расстояние. Добавь 0,5 см: бутса должна сидеть плотно, но пальцы не упираются.</p>
+        <div class="calc acc-hide">
           <label for="footCm">Длина стопы, см</label>
           <input id="footCm" type="number" min="22" max="31" step="0.1" value="26.4">
           <output id="footOut" for="footCm"></output>
         </div>
       </div>
-      <details class="tbl" id="tblBox">
+      <details class="tbl acc-hide" id="tblBox">
         <summary>Вся таблица размеров</summary>
         <table>
           <thead><tr><th>Стелька, см</th><th>RU</th><th>EU</th><th>US</th><th>UK</th></tr></thead>
@@ -413,11 +426,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
     </div>
   </section>
 
-  <section id="delivery">
+  <section id="delivery" class="acc">
     <div class="wrap">
       <div class="eyebrow">Как получить</div>
-      <h2>Доставка и примерка</h2>
-      <div class="del">
+      <h2><button type="button" class="acc-t" aria-expanded="false">Доставка и примерка</button></h2>
+      <div class="del acc-hide">
         <div><h3>По Екатеринбургу</h3><p>Привезём в день заказа. Курьер подождёт, пока ты меряешь. Не подошло, заберёт обратно.</p></div>
         <div><h3>Самовывоз</h3><p>Адрес магазина объявим к открытию 1 декабря. Следи за сторис в Instagram и VK.</p></div>
         <div><h3>По области</h3><p>Отправим в другие города. Способ доставки обсудим в сообщениях.</p></div>
@@ -590,6 +603,11 @@ function pic(p){
 
 
 if(matchMedia("(min-width:561px)").matches)$("#tblBox").open=true;
+
+/* раскрывающиеся блоки */
+function setAcc(sec,o){sec.classList.toggle("open",o);sec.querySelector(".acc-t").setAttribute("aria-expanded",o)}
+document.querySelectorAll(".acc-t").forEach(b=>b.onclick=()=>{const sec=b.closest(".acc");setAcc(sec,!sec.classList.contains("open"))});
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const sec=document.querySelector(a.getAttribute("href"));if(sec&&sec.classList.contains("acc"))setAcc(sec,true)});
 
 /* ticker */
 const t="Ворвись в игру ✕ Открытие 1 декабря ✕ Бутсы для газона, манежа и зала ✕ Форма на всю команду ✕ 11X11 Екатеринбург ✕ ";

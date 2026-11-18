@@ -102,6 +102,15 @@ nav a:hover{color:var(--ink)}
 .ticker .ti,.ticker .tx{margin-right:16px}
 @media (prefers-reduced-motion:reduce){.ticker div{animation:none}}
 
+/* только телефон: шаги подбора перед каталогом */
+.m-only{display:none}
+@media (max-width:760px){
+  .m-only{display:inline}
+  main{display:flex;flex-direction:column}
+  main>.hero{order:1} main>.ticker{order:2} #surfaces{order:3} #sizes{order:4} #catalog{order:5} #delivery{order:6} #contacts{order:7}
+  nav .n-surf{order:-1}
+}
+
 /* раскрывающиеся блоки на телефоне */
 .acc-t{all:unset;cursor:default}
 @media (max-width:760px){
@@ -288,8 +297,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
   <div class="wrap bar">
     <a class="logo" href="#top"><img src="assets/logo.jpg" alt="Логотип 11X11"><span>11X11</span></a>
     <nav id="mainNav">
-      <a href="#surfaces">Подбор<span class="long"> бутс</span></a>
-      <a href="#catalog">Каталог</a>
+      <a href="#catalog" class="n-cat">Каталог</a>
+      <a href="#surfaces" class="n-surf">Подбор<span class="long"> бутс</span></a>
       <a href="#delivery">Доставка</a>
       <a href="#contacts">Контакты</a>
     </nav>
@@ -360,41 +369,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
   <div class="ticker" aria-hidden="true"><div id="ticker"></div></div>
 
 
-  <section id="surfaces" class="acc">
-    <div class="wrap">
-      <div class="eyebrow">Подбор бутс · шаг 1</div>
-      <h2><button type="button" class="acc-t" aria-expanded="false">Какие бутсы под какое поле</button></h2>
-      <div class="surf-grid acc-hide" id="surfGrid"></div>
-    </div>
-  </section>
-
-  <section id="sizes" class="acc">
-    <div class="wrap size-wrap">
-      <div>
-        <div class="eyebrow">Подбор бутс · шаг 2</div>
-        <h2><button type="button" class="acc-t" aria-expanded="false">Размер бутс</button></h2>
-        <p class="acc-hide">Встань на лист бумаги, отметь пятку и самый длинный палец и измерь расстояние. Добавь 0,5 см: бутса должна сидеть плотно, но пальцы не упираются.</p>
-        <div class="calc acc-hide">
-          <label for="footCm">Длина стопы, см</label>
-          <input id="footCm" type="number" min="22" max="31" step="0.1" value="26.4">
-          <output id="footOut" for="footCm"></output>
-        </div>
-      </div>
-      <details class="tbl acc-hide" id="tblBox">
-        <summary>Вся таблица размеров</summary>
-        <table>
-          <thead><tr><th>Стелька, см</th><th>RU</th><th>EU</th><th>US</th><th>UK</th></tr></thead>
-          <tbody id="sizeBody"></tbody>
-        </table>
-      </details>
-    </div>
-  </section>
-
   <section id="catalog">
     <div class="wrap">
       <div class="cat-head">
         <div>
-          <div class="eyebrow">Шаг 3 · ассортимент</div>
+          <div class="eyebrow"><span class="m-only">Шаг 3 · </span>Ассортимент</div>
           <h2>Каталог</h2>
         </div>
         <span class="demo">Модели и цены пока для примера, ассортимент скоро</span>
@@ -423,6 +402,36 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
         <span class="count" id="count" style="margin-left:auto"></span>
       </div>
       <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="surfaces" class="acc">
+    <div class="wrap">
+      <div class="eyebrow">Подбор бутс · шаг 1</div>
+      <h2><button type="button" class="acc-t" aria-expanded="false">Какие бутсы под какое поле</button></h2>
+      <div class="surf-grid acc-hide" id="surfGrid"></div>
+    </div>
+  </section>
+
+  <section id="sizes" class="acc">
+    <div class="wrap size-wrap">
+      <div>
+        <div class="eyebrow">Подбор бутс · шаг 2</div>
+        <h2><button type="button" class="acc-t" aria-expanded="false">Размер бутс</button></h2>
+        <p class="acc-hide">Встань на лист бумаги, отметь пятку и самый длинный палец и измерь расстояние. Добавь 0,5 см: бутса должна сидеть плотно, но пальцы не упираются.</p>
+        <div class="calc acc-hide">
+          <label for="footCm">Длина стопы, см</label>
+          <input id="footCm" type="number" min="22" max="31" step="0.1" value="26.4">
+          <output id="footOut" for="footCm"></output>
+        </div>
+      </div>
+      <details class="tbl acc-hide" id="tblBox">
+        <summary>Вся таблица размеров</summary>
+        <table>
+          <thead><tr><th>Стелька, см</th><th>RU</th><th>EU</th><th>US</th><th>UK</th></tr></thead>
+          <tbody id="sizeBody"></tbody>
+        </table>
+      </details>
     </div>
   </section>
 

@@ -175,7 +175,22 @@ html:has(dialog[open]){overflow:hidden}
 .pd-spec dd{margin:0}
 .pd-info .add{margin-top:0}
 .pd-info .note a{color:var(--ink)}
-@media (max-width:760px){.pd-grid{grid-template-columns:1fr;padding:16px;gap:18px}.pd-x{margin:8px 8px 0 0}}
+@media (max-width:760px){.pd-grid{grid-template-columns:1fr;padding:16px;gap:18px}.pd-x{margin:8px 8px 0 0}.pd-spec{grid-template-columns:118px 1fr;gap:8px 12px}}
+
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .card{padding:8px;gap:8px;cursor:pointer}
+  .card .sizes,.card .add,.card .more{display:none}
+  .card .brand{font-size:10px}
+  .card h3{font-size:14px}
+  .card .price{font-size:17px;flex-wrap:wrap;gap:4px 8px}
+  .card .price s{font-size:12px}
+  .shot .tag{font-size:9px;padding:2px 5px;top:6px;left:6px}
+  .shot .tag.hot{left:auto;right:6px}
+  .filters .sep{display:none}
+  .filters label.count{width:72px}
+  .filters select{flex:1 1 calc(100% - 84px);min-width:0}
+}
 
 /* sizes */
 .size-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:36px;align-items:start}
@@ -620,6 +635,8 @@ function render(){
 $("#grid").addEventListener("click",e=>{
   const o=e.target.closest("[data-open]");
   if(o){openPD(+o.dataset.open);return}
+  const card=e.target.closest(".card");
+  if(card&&matchMedia("(max-width:560px)").matches){openPD(+card.querySelector("[data-open]").dataset.open);return}
   const sz=e.target.closest(".sz");
   if(sz&&!sz.disabled){state.pick[sz.dataset.id]=sz.dataset.s;render();return}
   const add=e.target.closest(".add");

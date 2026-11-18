@@ -59,13 +59,18 @@ nav a:hover{color:var(--ink)}
 .cart-btn .bag{display:none}
 @media (max-width:760px){
   .logo{display:none}
-  .bar{gap:10px}
+  .bar{gap:6px}
   nav{margin-left:0;flex:1;justify-content:space-between;gap:8px;min-width:0}
-  nav a{font-size:11px;letter-spacing:.04em;white-space:nowrap}
+  nav{gap:3px;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+  nav a{font-size:10px;letter-spacing:.02em;white-space:nowrap;padding:7px 5px;flex:1 1 auto;text-align:center;border:1px solid var(--line);border-radius:4px;color:var(--ink);transition:background .2s,color .2s}
+  nav a.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
   nav .long{display:none}
-  .cart-btn{padding:8px 10px;gap:6px}
+  .cart-btn{padding:7px 8px;gap:5px}
   .cart-btn .bag{display:block}
   .cart-btn .cart-word{display:none}
+}
+@media (max-width:370px){
+  nav a{font-size:9.5px;padding:7px 3px;letter-spacing:0}
 }
 
 /* hero: фото-постер, логотип и текст слева, бейдж свисает справа */
@@ -109,19 +114,6 @@ nav a:hover{color:var(--ink)}
   main{display:flex;flex-direction:column}
   main>.hero{order:1} main>.ticker{order:2} #surfaces{order:3} #sizes{order:4} #catalog{order:5} #delivery{order:6} #contacts{order:7}
   nav .n-surf{order:-1}
-}
-
-/* раскрывающиеся блоки на телефоне */
-.acc-t{all:unset;cursor:default}
-@media (max-width:760px){
-  section.acc{padding-block:22px}
-  .acc h2{margin:6px 0 0}
-  .acc-t{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;font-size:24px}
-  .acc-t::after{content:"+";font-family:var(--body);font-style:normal;font-weight:400;font-size:28px;line-height:1;width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;flex:none}
-  .acc-t[aria-expanded="true"]::after{content:"−"}
-  .acc:not(.open) .acc-hide{display:none}
-  .acc.open .acc-hide:first-of-type{margin-top:18px}
-  #sizes .size-wrap{gap:14px}
 }
 
 /* surfaces */
@@ -405,27 +397,27 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
     </div>
   </section>
 
-  <section id="surfaces" class="acc">
+  <section id="surfaces">
     <div class="wrap">
       <div class="eyebrow">Подбор бутс · шаг 1</div>
-      <h2><button type="button" class="acc-t" aria-expanded="false">Какие бутсы под какое поле</button></h2>
-      <div class="surf-grid acc-hide" id="surfGrid"></div>
+      <h2>Какие бутсы под какое поле</h2>
+      <div class="surf-grid" id="surfGrid"></div>
     </div>
   </section>
 
-  <section id="sizes" class="acc">
+  <section id="sizes">
     <div class="wrap size-wrap">
       <div>
         <div class="eyebrow">Подбор бутс · шаг 2</div>
-        <h2><button type="button" class="acc-t" aria-expanded="false">Размер бутс</button></h2>
-        <p class="acc-hide">Встань на лист бумаги, отметь пятку и самый длинный палец и измерь расстояние. Добавь 0,5 см: бутса должна сидеть плотно, но пальцы не упираются.</p>
-        <div class="calc acc-hide">
+        <h2>Размер бутс</h2>
+        <p>Встань на лист бумаги, отметь пятку и самый длинный палец и измерь расстояние. Добавь 0,5 см: бутса должна сидеть плотно, но пальцы не упираются.</p>
+        <div class="calc">
           <label for="footCm">Длина стопы, см</label>
           <input id="footCm" type="number" min="22" max="31" step="0.1" value="26.4">
           <output id="footOut" for="footCm"></output>
         </div>
       </div>
-      <details class="tbl acc-hide" id="tblBox">
+      <details class="tbl" id="tblBox">
         <summary>Вся таблица размеров</summary>
         <table>
           <thead><tr><th>Стелька, см</th><th>RU</th><th>EU</th><th>US</th><th>UK</th></tr></thead>
@@ -435,11 +427,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
     </div>
   </section>
 
-  <section id="delivery" class="acc">
+  <section id="delivery">
     <div class="wrap">
       <div class="eyebrow">Как получить</div>
-      <h2><button type="button" class="acc-t" aria-expanded="false">Доставка и примерка</button></h2>
-      <div class="del acc-hide">
+      <h2>Доставка и примерка</h2>
+      <div class="del">
         <div><h3>По Екатеринбургу</h3><p>Привезём в день заказа. Курьер подождёт, пока ты меряешь. Не подошло, заберёт обратно.</p></div>
         <div><h3>Самовывоз</h3><p>Адрес магазина объявим к открытию 1 декабря. Следи за сторис в Instagram и VK.</p></div>
         <div><h3>По области</h3><p>Отправим в другие города. Способ доставки обсудим в сообщениях.</p></div>
@@ -613,10 +605,15 @@ function pic(p){
 
 if(matchMedia("(min-width:561px)").matches)$("#tblBox").open=true;
 
-/* раскрывающиеся блоки */
-function setAcc(sec,o){sec.classList.toggle("open",o);sec.querySelector(".acc-t").setAttribute("aria-expanded",o)}
-document.querySelectorAll(".acc-t").forEach(b=>b.onclick=()=>{const sec=b.closest(".acc");setAcc(sec,!sec.classList.contains("open"))});
-document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const sec=document.querySelector(a.getAttribute("href"));if(sec&&sec.classList.contains("acc"))setAcc(sec,true)});
+/* подсветка текущего раздела в меню */
+const navMap=[["surfaces","#surfaces"],["sizes","#surfaces"],["catalog","#catalog"],["delivery","#delivery"],["contacts","#contacts"]];
+let navRaf=0;
+function navSpy(){navRaf=0;const y=innerHeight*.4;let cur=null;
+  navMap.forEach(([id,h])=>{const r=document.getElementById(id).getBoundingClientRect();if(r.top<=y&&r.bottom>y)cur=h});
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4)cur="#contacts";
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")===cur))}
+addEventListener("scroll",()=>{if(!navRaf)navRaf=requestAnimationFrame(navSpy)},{passive:true});
+addEventListener("resize",navSpy);navSpy();
 
 /* ticker */
 const t="Ворвись в игру ✕ Открытие 1 декабря ✕ Бутсы для газона, манежа и зала ✕ Форма на всю команду ✕ 11X11 Екатеринбург ✕ ";
